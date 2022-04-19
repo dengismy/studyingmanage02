@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:text="教学管理系统"
+        android:text="迎新系统"
         android:textColor="#ffffff"
         android:textSize="30dp" />
 
