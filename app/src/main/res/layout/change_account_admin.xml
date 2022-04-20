@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_marginTop="80dp"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:text="更改/删除教师登录信息"/>
+            android:text="改/删工作人员登录信息"
+            android:textS"更改/s登录信息"
+            android:gravity="center />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
