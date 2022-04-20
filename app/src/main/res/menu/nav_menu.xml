@@ -5,25 +5,39 @@
         <item
             android:id="@+id/nav_menu_myinfo"
             android:icon="@drawable/me"
-            android:title="个人信息"
+            android:title="更新个人信息"
             android:checkable="true"
-
+            />
+        <item
+            android:id="@+id/nav_menu_mycode"
+            android:icon="@drawable/mycode"
+            android:title="二维码报到"
+            android:checkable="true"
+            />
+        <item
+            android:id="@+id/nav_menu_mypay"
+            android:icon="@drawable/pay"
+            android:title="缴纳学杂费"
+            android:checkable="true"
+            />
+        <item
+            android:id="@+id/nav_menu_mydormitory"
+            android:icon="@drawable/bed"
+            android:title="查看宿舍安排"
+            android:checkable="true"
+            />
+        <item
+            android:id="@+id/nav_menu_school_map"
+            android:icon="@drawable/schoolmap"
+            android:title="校园地图"
+            android:checkable="true"
             />
         <item
             android:id="@+id/nav_menu_liuyan"
             android:icon="@drawable/icon_student_liuyan"
             android:title="提出建议"
             android:checkable="true"
-
             />
-
-        <item
-            android:id="@+id/nav_menu_look_hcourse"
-            android:icon="@drawable/xuankejieguo"
-            android:title="查看宿舍"
-            android:checkable="true"
-            />
-
         <item
             android:id="@+id/nav_menu_change_stuaccount"
 

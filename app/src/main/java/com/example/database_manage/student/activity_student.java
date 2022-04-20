@@ -76,12 +76,10 @@ public class activity_student extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_student);
-
-        initView();
-
         //获取登录信息，以锁定用户
         intent_1 = getIntent();
 
+        initView();
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -116,63 +114,52 @@ public class activity_student extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
+                    /**更新个人信息**/
                     case R.id.nav_menu_myinfo:
                         Intent intent_about = new Intent(activity_student.this, about_me.class);
                         intent_about.putExtra("student_id", intent_1.getStringExtra("student_id"));
                         startActivity(intent_about);
-
                         break;
+                    /**查看我的二维码**/
+                    case R.id.nav_menu_mycode:
+                        Toast.makeText(activity_student.this,"查看我的二维码",Toast.LENGTH_LONG).show();
+                        break;
+
+                    /**退出登录**/
                     case R.id.nav_menu_changeacc:
                         builder = new alertDialog_builder(activity_student.this).build();
-                        //   显示出该对话框
+                        //显示出该对话框
                         builder.show();
-
                         break;
-                    //留言
+                    /**留言**/
                     case R.id.nav_menu_liuyan:
                         Intent intent_submit = new Intent(activity_student.this, submit_message.class);
                         intent_submit.putExtra("student_id", intent_1.getStringExtra("student_id"));
                         startActivity(intent_submit);
                         break;
 
-                    //查看选课结果
-                    case R.id.nav_menu_look_hcourse:
-
-                        //两表连接查询
-                        Cursor cursor = db.rawQuery(
-                                "select * from student_course inner join course " +
-                                        "on student_course.course_name =course.course_name " +
-                                        "AND student_course.teacher_name = course.teacher_name  " +
-                                        "where student_id = ?", new String[]{intent_1.getStringExtra("student_id")});
-                        ArrayList<Map<String, String>> arrayList_1 = new ArrayList<Map<String, String>>();
-                        if (cursor.getCount() == 0) {
-                            Toast.makeText(activity_student.this, "您还没有选择任何课！", Toast.LENGTH_SHORT).show();
-                        } else {
-                            while (cursor.moveToNext()) {
-                                Map<String, String> map = new HashMap<String, String>();
-
-                                map.put("course_time", cursor.getString(cursor.getColumnIndex("course_time")));
-                                map.put("course_name", cursor.getString(cursor.getColumnIndex("course_name")));
-                                map.put("teacher_name", cursor.getString(cursor.getColumnIndex("teacher_name")));
-                                map.put("course_period", cursor.getString(cursor.getColumnIndex("course_period")));
-                                map.put("course_weight", cursor.getString(cursor.getColumnIndex("course_weight")));
-                                arrayList_1.add(map);
-
-                            }
-                            //设置适配器，并绑定布局文件
-                            SimpleAdapter simpleAdapter = new SimpleAdapter(activity_student.this, arrayList_1, R.layout.choose_result,
-                                    new String[]{"course_name", "teacher_name", "course_time", "course_weight", "course_period"}, new int[]{R.id.result_course_name, R.id.result_teacher_name, R.id.result_time, R.id.result_weight, R.id.result_period});
-                            listView_mycourse.setAdapter(simpleAdapter);
-                        }
-
+                        /**查看缴费情况**/
+                    case R.id.nav_menu_mypay:
+                        //再将从登陆界面接受的学生学号传给选择课程的活动
+                        Intent intent_2 = new Intent(activity_student.this, choose_course.class);
+                        intent_2.putExtra("student_id", intent_1.getStringExtra("student_id"));
+                        startActivity(intent_2);
                         break;
 
-                    //学生修改密码
+                       /**查看宿舍安排情况**/
+                    case R.id.nav_menu_mydormitory:
+                      Toast.makeText(activity_student.this,"查看宿舍",Toast.LENGTH_LONG).show();
+                        break;
+
+                    /**修改密码**/
                     case R.id.nav_menu_change_stuaccount:
                         Intent intent_change01 = new Intent(activity_student.this,stu_password_change.class);
                         startActivity(intent_change01);
                         break;
-
+                    /**查看校园地图**/
+                    case R.id.nav_menu_school_map:
+                        Toast.makeText(activity_student.this,"查看地图",Toast.LENGTH_LONG).show();
+                        break;
                     default:
                         break;
                 }
@@ -186,12 +173,8 @@ public class activity_student extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.floatingbutton_choose_course:
-                        //再将从登陆界面接受的学生学号传给选择课程的活动
-                        Intent intent_2 = new Intent(activity_student.this, choose_course.class);
-                        intent_2.putExtra("student_id", intent_1.getStringExtra("student_id"));
-                        startActivity(intent_2);
-                        break;
+                    case R.id.floatingbutton_mysearch:
+                     Toast.makeText(activity_student.this,"搜索资讯",Toast.LENGTH_LONG).show();
                     default:
                         break;
                 }
@@ -221,15 +204,40 @@ public class activity_student extends AppCompatActivity {
 
         headview = navigationView.inflateHeaderView(R.layout.headlayout);
 
-
         textView_welcome = headview.findViewById(R.id.welcome_textview);
-
 
         circleImageView = headview.findViewById(R.id.circleimage);
 
-        floatingActionButton = findViewById(R.id.floatingbutton_choose_course);
+        floatingActionButton = findViewById(R.id.floatingbutton_mysearch);
 
         imageStore = new image_store();
+
+        /**初始化主页面资讯显示两表连接查询**/
+        Cursor cursor = db.rawQuery(
+                "select * from student_course inner join course " +
+                        "on student_course.course_name =course.course_name " +
+                        "AND student_course.teacher_name = course.teacher_name  " +
+                        "where student_id = ?", new String[]{intent_1.getStringExtra("student_id")});
+        ArrayList<Map<String, String>> arrayList_1 = new ArrayList<Map<String, String>>();
+        if (cursor.getCount() == 0) {
+            Toast.makeText(activity_student.this, "您还没有选择任何课！", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                Map<String, String> map = new HashMap<String, String>();
+
+                map.put("course_time", cursor.getString(cursor.getColumnIndex("course_time")));
+                map.put("course_name", cursor.getString(cursor.getColumnIndex("course_name")));
+                map.put("teacher_name", cursor.getString(cursor.getColumnIndex("teacher_name")));
+                map.put("course_period", cursor.getString(cursor.getColumnIndex("course_period")));
+                map.put("course_weight", cursor.getString(cursor.getColumnIndex("course_weight")));
+                arrayList_1.add(map);
+
+            }
+            //设置适配器，并绑定布局文件
+            SimpleAdapter simpleAdapter = new SimpleAdapter(activity_student.this, arrayList_1, R.layout.choose_result,
+                    new String[]{"course_name", "teacher_name", "course_time", "course_weight", "course_period"}, new int[]{R.id.result_course_name, R.id.result_teacher_name, R.id.result_time, R.id.result_weight, R.id.result_period});
+            listView_mycourse.setAdapter(simpleAdapter);
+        }
 
     }
 
@@ -240,7 +248,6 @@ public class activity_student extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-
                 break;
             default:
                 break;

@@ -45,13 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.design.widget.FloatingActionButton
-                android:src="@drawable/add_course"
+                android:src="@drawable/search"
                 android:layout_width="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_gravity="bottom|end"
                 app:fabSize="normal"
                 android:scaleType="center"
-                android:id="@+id/floatingbutton_choose_course"
+                android:id="@+id/floatingbutton_mysearch"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.CoordinatorLayout>
         </RelativeLayout>
