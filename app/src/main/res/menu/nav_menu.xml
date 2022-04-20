@@ -23,7 +23,7 @@
         <item
             android:id="@+id/nav_menu_mydormitory"
             android:icon="@drawable/bed"
-            android:title="查看宿舍安排"
+            android:title="宿舍安排"
             android:checkable="true"
             />
         <item
