@@ -21,7 +21,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
-        app:title="教师端"
+        app:title="职工端"
         android:id="@+id/toolbar_teacher"
         android:layout_height="?attr/actionBarSize">
 
@@ -36,10 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/listview_teacher"
-
             android:dividerHeight="1px"
             android:divider="#000"
-
             >
         </ListView>
 
@@ -55,14 +53,6 @@
 
         android:id="@+id/teacher_linearlayout"
         android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查看我教的课程信息"
-            android:id="@+id/button_lookmycourse"
-            android:background="@drawable/shape"
-
-            />
 
     </LinearLayout>
     <android.support.design.widget.CoordinatorLayout
@@ -70,7 +60,15 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
-
+        <android.support.design.widget.FloatingActionButton
+            android:src="@drawable/add_course"
+            android:layout_width="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom|end"
+            app:fabSize="normal"
+            android:scaleType="center"
+            android:id="@+id/floatingbutton_scan_code"
+            android:layout_height="wrap_content" />
     </android.support.design.widget.CoordinatorLayout>
     </RelativeLayout>
     </FrameLayout>
