@@ -6,13 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_fragment_student"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
-        android:id="@+id/toolbar_fragment_student"
-        app:title="管理学生"
         android:fitsSystemWindows="true"
-        >
+        app:title="管理学生">
 
     </android.support.v7.widget.Toolbar>
     <android.support.v4.widget.SwipeRefreshLayout
