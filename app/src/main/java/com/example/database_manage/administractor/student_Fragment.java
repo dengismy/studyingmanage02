@@ -373,7 +373,7 @@ public class student_Fragment extends Fragment {
             while (cursor_account.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("account", cursor_account.getString(cursor_account.getColumnIndex("account")));
-                map.put("password", cursor_account.getString(cursor_account.getColumnIndex("password")));
+               // map.put("password", cursor_account.getString(cursor_account.getColumnIndex("password")));
                 arrayList_account.add(map);
 
             }
