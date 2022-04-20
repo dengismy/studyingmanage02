@@ -11,8 +11,12 @@
     <item
         android:id="@+id/student_backup_add"
         android:title="增加学生信息"
-        android:icon="@drawable/hao"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/student_large_add"
+        android:title="批量导入学生信息"
+        app:showAsAction="never"
         />
 
 

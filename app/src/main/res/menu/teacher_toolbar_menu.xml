@@ -9,11 +9,14 @@
 
         />
     <item
-        android:id="@+id/teacher_backup_add"
-        android:title="增加教师信息"
-        android:icon="@drawable/hao"
-        app:showAsAction="ifRoom"
+    android:id="@+id/teacher_backup_add"
+    android:title="增加工作人员信息"
+    app:showAsAction="never"
+    />
+    <item
+        android:id="@+id/teacher_large_add"
+        android:title="批量导入工作人员信息"
+        app:showAsAction="never"
         />
-
 
 </menu>

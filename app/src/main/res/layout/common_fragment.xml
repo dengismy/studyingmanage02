@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:id="@+id/toolbar_fragment_common"
-        app:title="管理员设置"
+        app:title="管理员"
         >
     </android.support.v7.widget.Toolbar>
     <ListView
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/f_look_sumcourse"
             android:layout_weight="1"
-            android:text="查询课程设置情况"/>
+            android:text="查看资讯"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:id="@+id/toolbar_fragment_teacher"
-        app:title="管理老师"
+        app:title="管理工作人员"
         >
     </android.support.v7.widget.Toolbar>
     <android.support.v4.widget.SwipeRefreshLayout
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-            android:hint="请输入教师号"
+            android:hint="请输入职工号"
             android:id="@+id/f_edit_query_teacher_byid"/>
         <EditText
             android:layout_width="wrap_content"
@@ -80,20 +80,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
-            android:text="查询所有教师信息"/>
+            android:text="查询所有工作人员信息"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/f_t_look_teacher"
             android:layout_weight="1"
-
-            android:text="查询教师登陆信息"/>
-
+            android:text="查询工作人员登陆信息"/>
     </LinearLayout>
     </LinearLayout>
-
-
 
 </RelativeLayout>

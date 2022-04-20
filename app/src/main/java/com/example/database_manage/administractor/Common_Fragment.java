@@ -53,6 +53,9 @@ public class Common_Fragment extends Fragment {
             case R.id.course_add:
                 startActivity(new Intent(getActivity(),add_course.class));
                 break;
+            case R.id.twocode_refresh:
+               //更新二维码
+                break;
             case  R.id.guanliyuan_return:
                 startActivity(new Intent(getActivity(),load.class));
         }
@@ -130,7 +133,7 @@ public class Common_Fragment extends Fragment {
             public void onClick(View v) {
 
                 switch (v.getId()) {
-                    /******查看课程设置情况******///
+                    /******查看咨询设置情况******///
                     case R.id.f_look_sumcourse:
                         listview_state = "change_course_set";
 
@@ -198,7 +201,7 @@ public class Common_Fragment extends Fragment {
 
                         }
                         SimpleAdapter simpleAdapter_look_admin = new SimpleAdapter(getActivity(), arrayList_look_admin, R.layout.list_item_account,
-                                new String[]{"account","password"}, new int[]{R.id.account_t, R.id.account_tv});
+                                new String[]{"account"}, new int[]{R.id.account_t});
                         listView.setAdapter(simpleAdapter_look_admin);
                         break;
                     default:

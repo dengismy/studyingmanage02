@@ -61,7 +61,10 @@ public class student_Fragment extends Fragment {
                 Intent intent_add1 = new Intent(getActivity(), add.class);
                 startActivity(intent_add1);
                 break;
-
+            case R.id.student_large_add:
+                /**批量导入学生信息**/
+                Toast.makeText(getActivity(),"批量增加学生信息", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }
@@ -81,31 +84,21 @@ public class student_Fragment extends Fragment {
         //Toolbar设置
         toolbar = view.findViewById(R.id.toolbar_fragment_student);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
         setHasOptionsMenu(true);
-
-
         //状态栏颜色设置
         new Common_toolbarColor().toolbarColorSet(getActivity());
 
 
-
-
-
-
         //查询所有学生的按钮
         Button button_query = view.findViewById(R.id.f_query);
-
         //查询学生登录账号密码的按钮
         Button button_query_account = view.findViewById(R.id.f_query_account);
         //按照学号查询的按钮
         Button button_query_byterm = view.findViewById(R.id.f_query_byterm);
-
         //按照学号查询的编辑框
         edit_querybyid = view.findViewById(R.id.f_edit_querybyid);
         edit_querybyname = view.findViewById(R.id.f_edit_querybyname);
         edit_querybybanji = view.findViewById(R.id.f_edit_querybybanji);
-
 
         /*****建立数据库，并建表*******/
         CommonDatabase commonDatabase = new CommonDatabase();
@@ -195,24 +188,17 @@ public class student_Fragment extends Fragment {
                     case R.id.f_query_account:
                         //查询的是账户，所以设置listview为查询账户状态
                         listview_state = "account";
-
                         listview_set(listview_state);
                         break;
-
                     default:
-
                         break;
-
                 }
-
             }
 
 
         };
 
-
         button_query.setOnClickListener(listener);
-
         //查询学生登录账号密码的按钮
         button_query_account.setOnClickListener(listener);
         //按照学号查询的按钮
@@ -241,20 +227,15 @@ public class student_Fragment extends Fragment {
                             public void run() {
                                 // refresh ui 的操作代码
                                 listview_set(listview_state);
-
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
-
-
                     }
                 }).start();
 
 
             }
         });
-
-
 
     }
 
@@ -268,7 +249,6 @@ public class student_Fragment extends Fragment {
         else {
             while (cursor_query_byid.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
-
                 map.put("name", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("name")));
                 map.put("id", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("id")));
                 map.put("sex", cursor_query_byid.getString(cursor_query_byid.getColumnIndex("sex")));
@@ -296,7 +276,6 @@ public class student_Fragment extends Fragment {
             //对游标进行遍历
             while (cursor.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
-
                 map.put("name", cursor.getString(cursor.getColumnIndex("name")));
                 map.put("id", cursor.getString(cursor.getColumnIndex("id")));
                 map.put("sex", cursor.getString(cursor.getColumnIndex("sex")));
@@ -304,7 +283,6 @@ public class student_Fragment extends Fragment {
                 map.put("banji", cursor.getString(cursor.getColumnIndex("banji")));
                 map.put("phone", cursor.getString(cursor.getColumnIndex("phone")));
                 map.put("college", cursor.getString(cursor.getColumnIndex("college")));
-
                 arrayList.add(map);
 
             }
@@ -380,96 +358,10 @@ public class student_Fragment extends Fragment {
 
             //设置适配器
             SimpleAdapter simpleAdapter_account = new SimpleAdapter(getActivity(), arrayList_account, R.layout.list_item_account,
-                    new String[]{"account", "password"}, new int[]{R.id.account_t, R.id.account_tv});
+                    new String[]{"account"}, new int[]{R.id.account_t});
             listView.setAdapter(simpleAdapter_account);
         }
 
     }
-    public void jidian_order()
-    {
-        double[] duizhao = new double[105];
-        double fenmu =0.0;
-        double fenzi =0.0;
-        double temp=0.8;
-
-        for(int i=0;i<60;i++)
-        {
-            duizhao[i]=0;
-        }
-
-        for(int j=60;j<66;j++)
-        {
-            temp+=0.2;
-            duizhao[j]=temp;
-
-
-        }
-        temp=2.0;
-        for(int z=66;z<95;z++)
-        {
-            temp+=0.1;
-            duizhao[z]=temp;
-        }
-        for(int k=95;k<=100;k++)
-        {
-            duizhao[k]=5.0;
-        }
-        /*****************************************/
-        //去找所有学生的学号
-        Cursor cursor_id = db.query("student",null,null,null,null,null,null);
-        while(cursor_id.moveToNext())
-        {
-            //对每个学号进行查询
-            String str = cursor_id.getString(cursor_id.getColumnIndex("id"));
-            Cursor cursor1 =db.rawQuery("select * " +
-                    "from student , student_course,course " +
-                    "where student.id = student_course.student_id and course.course_name = student_course.course_name and id = ?",new String[]{str});
-            if(cursor1.getCount()==0)
-            {
-                Toast.makeText(getActivity(),"kong!"+str,Toast.LENGTH_SHORT).show();
-                //Toast.makeText(Container.this,"您还没有选任何课或您的成绩老师还没有注入哦",Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                while(cursor1.moveToNext())
-                {
-                    if(cursor1.getString(cursor1.getColumnIndex("score"))!=null) {
-                        fenmu = fenmu + Double.parseDouble(cursor1.getString(cursor1.getColumnIndex("course_weight")));
-                        fenzi += duizhao[Integer.parseInt(cursor1.getString(cursor1.getColumnIndex("score")))] * Double.parseDouble(cursor1.getString(cursor1.getColumnIndex("course_weight")));
-                    }
-
-                }
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("jidian",fenzi/fenmu);
-                db.update("student", contentValues, "id = ? ", new String[]{str});
-                fenmu =0.0;
-                fenzi =0.0;
-            }
-
-
-
-        }
-        //然后对列表进行处理
-        Cursor cursor_jidian = db.query("student", null, null, null, null, null, "banji");
-        ArrayList<Map<String, String>> arrayList_jidian = new ArrayList<Map<String, String>>();
-        //对游标进行遍历
-        while (cursor_jidian.moveToNext()) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("id", cursor_jidian.getString(cursor_jidian.getColumnIndex("id")));
-            map.put("name", cursor_jidian.getString(cursor_jidian.getColumnIndex("name")));
-            map.put("banji", cursor_jidian.getString(cursor_jidian.getColumnIndex("banji")));
-            map.put("jidian", cursor_jidian.getString(cursor_jidian.getColumnIndex("jidian")));
-            arrayList_jidian.add(map);
-
-        }
-
-        //设置适配器
-        SimpleAdapter simpleAdapter_jidian = new SimpleAdapter(getActivity(), arrayList_jidian, R.layout.list_item_jidian,
-                new String[]{"id", "name","banji","jidian"}, new int[]{R.id.xuehao, R.id.xingming,R.id.banji,R.id.jidian});
-        listView.setAdapter(simpleAdapter_jidian);
-    }
-
-
-
 
 }

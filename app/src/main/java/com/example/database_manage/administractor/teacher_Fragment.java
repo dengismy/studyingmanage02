@@ -52,12 +52,14 @@ public class teacher_Fragment extends Fragment {
         {
             case R.id.teacher_backup_qingchu:
                 listView.setAdapter(null);
-
                 break;
             case R.id.teacher_backup_add:
                 Intent intent_add_teacher = new Intent(getActivity(), add_teacher.class);
                 startActivity(intent_add_teacher);
-
+                break;
+            case R.id.teacher_large_add:
+                /**批量导入工作人员信息**/
+                Toast.makeText(getActivity(),"批量增加工作人员信息", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -200,14 +202,14 @@ public class teacher_Fragment extends Fragment {
                         {
                             Map <String,String> map= new HashMap<String,String>();
                             map.put("account",cursor_look.getString(cursor_look.getColumnIndex("account")));
-                            map.put("password",cursor_look.getString(cursor_look.getColumnIndex("password")));
+                         //   map.put("password",cursor_look.getString(cursor_look.getColumnIndex("password")));
                             arrayList_look.add(map);
 
                         }
 
                         //设置适配器
                         SimpleAdapter simpleAdapter_look=new SimpleAdapter(getActivity(),arrayList_look,R.layout.list_item_account,
-                                new String[]{"account","password"},new int[]{R.id.account_t,R.id.account_tv});
+                                new String[]{"account"},new int[]{R.id.account_t});
                         listView.setAdapter(simpleAdapter_look);
                         break;
 
