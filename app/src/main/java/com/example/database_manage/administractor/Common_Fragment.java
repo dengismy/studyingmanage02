@@ -51,7 +51,7 @@ public class Common_Fragment extends Fragment {
                 startActivity(new Intent(getActivity(),add_admin.class));
                 break;
             case R.id.course_add:
-                startActivity(new Intent(getActivity(),add_course.class));
+                startActivity(new Intent(getActivity(),add_news.class));
                 break;
             case R.id.twocode_refresh:
                //更新二维码
@@ -81,8 +81,8 @@ public class Common_Fragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        //查看课程信息的button
-        Button button_query_course = view.findViewById(R.id.f_look_sumcourse);
+        //查看资讯的button
+        Button button_query_news = view.findViewById(R.id.f_look_sumnews);
         //查看留言的button
         Button button_look_message = view.findViewById(R.id.f_query_liuyan);
 
@@ -95,18 +95,15 @@ public class Common_Fragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(listview_state.equals("change_course_set"))
+                if(listview_state.equals("change_news"))
                 {
                     HashMap<String,Object > map_item = (HashMap<String,Object >)listView.getItemAtPosition(position);
+                    Intent intent_change_news = new Intent(getActivity(), change_news.class);
+                    //获取map中的数据，并放入intent
+                    intent_change_news.putExtra("title",map_item.get("title")+"");
+                    intent_change_news.putExtra("id",map_item.get("id")+"");
 
-                    Intent intent_delete = new Intent(getActivity(), change_course_set.class);
-                    //获取map中的三项数据，并放入intent
-                    intent_delete.putExtra("teacher_name",map_item.get("teacher_name")+"");
-                    intent_delete.putExtra("course_name",map_item.get("course_name")+"");
-                    intent_delete.putExtra("course_time",map_item.get("course_time")+"");
-                    intent_delete.putExtra("course_period",map_item.get("course_period")+"");
-
-                    startActivity(intent_delete);
+                    startActivity(intent_change_news);
                 }
                 else if (listview_state.equals("message"))
                 {
@@ -133,29 +130,24 @@ public class Common_Fragment extends Fragment {
             public void onClick(View v) {
 
                 switch (v.getId()) {
-                    /******查看咨询设置情况******///
-                    case R.id.f_look_sumcourse:
-                        listview_state = "change_course_set";
-
-                        Cursor cursor_look_course = db.query("course", null, null, null, null, null, null);
+                    /******查看资讯设置情况******/
+                    case R.id.f_look_sumnews:
+                        listview_state = "change_news";
+                        Cursor cursor_look_news = db.query("news", null, null, null, null, null, null);
                         ArrayList<Map<String, String>> arrayList_look_course = new ArrayList<Map<String, String>>();
                         //对游标进行遍历
-                        while (cursor_look_course.moveToNext()) {
+                        while (cursor_look_news.moveToNext()) {
                             Map<String, String> map = new HashMap<String, String>();
-                            map.put("teacher_name", cursor_look_course.getString(cursor_look_course.getColumnIndex("teacher_name")));
-                            map.put("course_name", cursor_look_course.getString(cursor_look_course.getColumnIndex("course_name")));
-                            map.put("course_weight", cursor_look_course.getString(cursor_look_course.getColumnIndex("course_weight")));
-                            map.put("course_time", cursor_look_course.getString(cursor_look_course.getColumnIndex("course_time")));
-                            map.put("course_period", cursor_look_course.getString(cursor_look_course.getColumnIndex("course_period")));
-
+                            map.put("title", cursor_look_news.getString(cursor_look_news.getColumnIndex("title")));
+                            map.put("date", cursor_look_news.getString(cursor_look_news.getColumnIndex("new_date")));
+                            map.put("id", cursor_look_news.getString(cursor_look_news.getColumnIndex("news_id")));
                             arrayList_look_course.add(map);
 
                         }
-
                         //设置适配器
-                        SimpleAdapter simpleAdapter_look_course = new SimpleAdapter(getActivity(), arrayList_look_course, R.layout.list_item_allcourse,
-                                new String[]{"teacher_name", "course_name", "course_weight","course_time", "course_period"}, new int[]{R.id.text_teacher_name, R.id.text_course_name, R.id.text_course_weight,R.id.text_course_time, R.id.text_course_period});
-                        listView.setAdapter(simpleAdapter_look_course);
+                        SimpleAdapter simpleAdapter_look_news = new SimpleAdapter(getActivity(), arrayList_look_course, R.layout.list_item_allnews,
+                                new String[]{"title", "date"}, new int[]{R.id.text_news_title, R.id.text_news_date});
+                        listView.setAdapter(simpleAdapter_look_news);
 
                         break;
                     /****查看留言*******/
@@ -213,7 +205,7 @@ public class Common_Fragment extends Fragment {
 
         };
 
-        button_query_course.setOnClickListener(listener);
+         button_query_news.setOnClickListener(listener);
          button_look_message.setOnClickListener(listener);
          button_look_admin.setOnClickListener(listener);
     }

@@ -40,19 +40,13 @@ public class change_course_set extends AppCompatActivity implements View.OnClick
         edit_course_time = findViewById(R.id.et_course_time);
         edit_course_period = findViewById(R.id.et_course_period);
 
-
         Intent intent_receive = getIntent();
-
-
 
         //把intent中携带的信息设置成为编辑框的初始内容，方便修改
         edit_teacher_name.setText(intent_receive.getStringExtra("teacher_name"));
         edit_course_name.setText(intent_receive.getStringExtra("course_name"));
         edit_course_time.setText(intent_receive.getStringExtra("course_time"));
         edit_course_period.setText(intent_receive.getStringExtra("course_period"));
-
-
-
 
         //获取初始值
         teacher_name = edit_teacher_name.getText().toString();
@@ -118,9 +112,6 @@ public class change_course_set extends AppCompatActivity implements View.OnClick
 
             default:
                 break;
-
-
-
 
         }
     }

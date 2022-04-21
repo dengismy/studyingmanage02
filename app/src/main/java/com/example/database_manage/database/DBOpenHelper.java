@@ -25,8 +25,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "age int check(age<100 and age>0)," +
                 "banji varchar(20) ," +
                 "phone int ," +
-                "college varchar(20) default '无'," +
-                "jidian int check(jidian>0 and jidian<5.0)) ";
+                "college varchar(20) default '无')" ;
         //学生——登陆密码表
         String sql_student_load = "create table load_account(account int primary Key not null ,password varchar(20))";
         //触发器
@@ -94,7 +93,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "score flaot, " +
                 "FOREIGN KEY(course_name) REFERENCES course(course_name)," +
                 "FOREIGN KEY(teacher_name) REFERENCES course(teacher_name)" +
-
                 ")";
         //课程信息表
         String sql_course = "create table course(" +
@@ -108,6 +106,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql_course);
         db.execSQL(sql_student_course);
 
+        /**资讯**/
+        String sql_news = "create table news(" +
+                "news_id varchar(20) PRIMARY KEY," +
+                "title varchar(20) not null,"+
+                "content text,"+
+                "new_date varcahr(20))";
+        db.execSQL(sql_news);
 
         //留言信息存储表
         String sql_liuyan = "create table message(" +
@@ -147,10 +152,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         //插入基本测试数据
         String sql_insert1 = "insert into course(teacher_name,course_name,course_weight,course_time,course_period) values('陈老师','电子线路基础',2,'周一上午','1')";
         String sql_insert2 = "insert into course(teacher_name,course_name,course_weight,course_time,course_period) values('马老师','大学英语4',4,'周五上午','1')";
-        String sql_insert4 = "insert into course(teacher_name,course_name,course_weight,course_time,course_period) values('陈老师','数学模型',2,'周一晚上','1')";
+        String sql_insert4 = "insert into news(news_id,title,content,new_date) values('1','111','11111111','2022.2.2')";
+        String sql_insert3 = "insert into news(news_id,title,content,new_date) values('2','2222','2222','2022.2.2')";
         db.execSQL(sql_insert1);
         db.execSQL(sql_insert2);
         db.execSQL(sql_insert4);
+        db.execSQL(sql_insert3);
 
 
         //插入基本测试数据

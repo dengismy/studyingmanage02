@@ -19,15 +19,11 @@
         android:layout_marginTop="50dp"
         android:id="@+id/et_message"
         android:lines="5"
-
         android:gravity="top"
-
         android:hint="请输入您的反馈意见(字数500以内)！"
         android:textSize="20sp"
         android:textColor="#ffffff"
-
         android:layout_width="fill_parent"
-
         android:layout_height="wrap_content">
 
     </EditText>
