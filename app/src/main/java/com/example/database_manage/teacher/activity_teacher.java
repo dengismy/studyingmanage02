@@ -25,6 +25,9 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
+
+import com.example.database_manage.administractor.add_news;
+import com.example.database_manage.administractor.change_news;
 import com.example.database_manage.utils.Common_toolbarColor;
 import com.example.database_manage.R;
 import com.example.database_manage.database.CommonDatabase;
@@ -63,8 +66,8 @@ public class activity_teacher extends AppCompatActivity {
     //用于替代ActionBar的toolbar
     private Toolbar toolbar;
 
-    //触发查看我的课程信息的button
-    private FloatingActionButton button_scan_code;
+    //触发查增加资讯的button
+    private FloatingActionButton button_add_news;
 
     //圆形imageview 用于显示头像
     private CircleImageView circleImageView;
@@ -153,12 +156,17 @@ public class activity_teacher extends AppCompatActivity {
                         //资讯管理
                     case R.id.nav_menu_manage_message:
                         state = "mycourse";
-                        look_course();
+                        look_news();
                         break;
 
                     //宿舍分配
                     case R.id.nav_menu_assign_dormitory:
                         Toast.makeText(activity_teacher.this,"宿舍分配",Toast.LENGTH_LONG).show();
+                        break;
+                    //资讯管理
+                    case R.id.nav_menu_scan_code:
+                        state = "scan_code";
+                        Toast.makeText(activity_teacher.this,"扫描二维码",Toast.LENGTH_LONG).show();
                         break;
 
                     default:
@@ -173,24 +181,14 @@ public class activity_teacher extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /****点击老师拥有的课程的****/
-                //获取用户-老师的名字
-                String teacher_name = "";
-                Cursor cursor_look_for_id = db.query("teacher", null, "teacher_id =?", new String[]{receive_intent.getStringExtra("teacher_id")}, null, null, null);
-                while (cursor_look_for_id.moveToNext()) {
-                    teacher_name = cursor_look_for_id.getString(cursor_look_for_id.getColumnIndex("name"));
-                }
+                /****点击资讯进行修改****/
+                HashMap<String,Object > map_item = (HashMap<String,Object >)listView.getItemAtPosition(position);
+                Intent intent_change_news = new Intent(activity_teacher.this, change_news.class);
+                //获取map中的数据，并放入intent
+                intent_change_news.putExtra("title",map_item.get("title")+"");
+                intent_change_news.putExtra("id",map_item.get("id")+"");
 
-                HashMap<String, Object> map_item = (HashMap<String, Object>) listView.getItemAtPosition(position);
-                //获取选择这个子项的课程名称 ，去查找这个课程下的学生
-                String course_name = map_item.get("course_name") + "";
-
-                Intent intent_info = new Intent(activity_teacher.this, student_choose_course_info.class);
-                intent_info.putExtra("course_name", course_name);
-                intent_info.putExtra("teacher_name", teacher_name);
-                startActivity(intent_info);
-
-
+                startActivity(intent_change_news);
             }
         });
 
@@ -213,7 +211,7 @@ public class activity_teacher extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                look_course();
+                                look_news();
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
@@ -224,29 +222,27 @@ public class activity_teacher extends AppCompatActivity {
         });
 
 
-        //按钮监听器
+        /**悬浮按钮监听器，增加资讯**/
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 switch (v.getId()) {
 
-                    case R.id.floatingbutton_scan_code:
-                        Toast.makeText(activity_teacher.this, "扫描二维码", Toast.LENGTH_SHORT).show();
+                    case R.id.floatingbutton_add_news:
+                        startActivity(new Intent(activity_teacher.this,add_news.class));
+                        Toast.makeText(activity_teacher.this, "增加资讯", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
             }
         };
-        button_scan_code.setOnClickListener(listener);
+        button_add_news.setOnClickListener(listener);
         circleImageView.setOnClickListener(listener);
 
     }
 
     //初始化组件
     public void init() {
-
-
         //设置标题栏与状态栏颜色保持一致
         new Common_toolbarColor().toolbarColorSet(activity_teacher.this);
 
@@ -274,7 +270,7 @@ public class activity_teacher extends AppCompatActivity {
 
         listView = findViewById(R.id.listview_teacher);
 
-        button_scan_code = findViewById(R.id.floatingbutton_scan_code);
+        button_add_news = findViewById(R.id.floatingbutton_add_news);
 
         //NavigationView绑定及监听子项
         navigationView = findViewById(R.id.navigation_view_t);
@@ -290,8 +286,6 @@ public class activity_teacher extends AppCompatActivity {
         //头像初始化
         imageStore = new image_store();
 
-        //列表初始化
-        look_course();
 
     }
 
@@ -302,7 +296,6 @@ public class activity_teacher extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-
                 break;
             default:
                 break;
@@ -310,36 +303,27 @@ public class activity_teacher extends AppCompatActivity {
         return true;
     }
 
-    public void look_course() {
-        String teacher_name = "";
-        //去老师信息表中根据老师的id查找它的姓名
-        Cursor cursor_look_for_id = db.query("teacher", null, "teacher_id =?", new String[]{receive_intent.getStringExtra("teacher_id")}, null, null, null);
-        while (cursor_look_for_id.moveToNext()) {
-            teacher_name = cursor_look_for_id.getString(cursor_look_for_id.getColumnIndex("name"));
-        }
+    /**显示所有资讯**/
+    public void look_news() {
 
         //以老师姓名为根本去查询老师旗下的课程信息
-        Cursor cursor = db.query("course", null, "teacher_name = ?", new String[]{teacher_name}, null, null, null);
-
+        Cursor cursor = db.query("news", null, null, null, null, null, null);
         //对游标进行遍历
         if (cursor.getCount() == 0) {
             Toast.makeText(activity_teacher.this, "暂时无资讯", Toast.LENGTH_SHORT).show();
         } else {
-            ArrayList<Map<String, String>> arrayList_mycourse = new ArrayList<Map<String, String>>();
+            ArrayList<Map<String, String>> arrayList_news = new ArrayList<Map<String, String>>();
             while (cursor.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
-
-                map.put("course_name", cursor.getString(cursor.getColumnIndex("course_name")));
-                map.put("course_time", cursor.getString(cursor.getColumnIndex("course_time")));
-                map.put("course_period", cursor.getString(cursor.getColumnIndex("course_period")));
-
-
-                arrayList_mycourse.add(map);
+                map.put("title", cursor.getString(cursor.getColumnIndex("title")));
+                map.put("date", cursor.getString(cursor.getColumnIndex("new_date")));
+                map.put("id", cursor.getString(cursor.getColumnIndex("news_id")));
+                arrayList_news.add(map);
 
             }
             ////////////////////
             CoordinatorLayout teacher_coordinatorlayout = findViewById(R.id.teacher_coordinatorlayout);
-            Snackbar.make(teacher_coordinatorlayout, "一共有" + arrayList_mycourse.size() + "条资讯", Snackbar.LENGTH_LONG)
+            Snackbar.make(teacher_coordinatorlayout, "一共有" + arrayList_news.size() + "条资讯", Snackbar.LENGTH_LONG)
                     .setAction("好的", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -349,8 +333,8 @@ public class activity_teacher extends AppCompatActivity {
                     .show();
 
             //设置适配器
-            SimpleAdapter simpleAdapter = new SimpleAdapter(activity_teacher.this, arrayList_mycourse, R.layout.list_item_teacher_mycourse,
-                    new String[]{"course_name", "course_time", "course_period"}, new int[]{R.id.t_mycourse_name, R.id.t_mycourse_time, R.id.t_mycourse_period});
+            SimpleAdapter simpleAdapter = new SimpleAdapter(activity_teacher.this, arrayList_news, R.layout.list_item_allnews,
+                    new String[]{"title", "date"}, new int[]{R.id.text_news_title, R.id.text_news_date});
             listView.setAdapter(simpleAdapter);
 
 

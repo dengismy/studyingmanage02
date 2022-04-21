@@ -50,6 +50,7 @@ public class Common_Fragment extends Fragment {
             case R.id.guanliyuan_backup_add:
                 startActivity(new Intent(getActivity(),add_admin.class));
                 break;
+                /**增加资讯**/
             case R.id.course_add:
                 startActivity(new Intent(getActivity(),add_news.class));
                 break;
@@ -95,6 +96,7 @@ public class Common_Fragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /**修改资讯**/
                 if(listview_state.equals("change_news"))
                 {
                     HashMap<String,Object > map_item = (HashMap<String,Object >)listView.getItemAtPosition(position);
@@ -130,7 +132,7 @@ public class Common_Fragment extends Fragment {
             public void onClick(View v) {
 
                 switch (v.getId()) {
-                    /******查看资讯设置情况******/
+                    /******查看所有资讯情况******/
                     case R.id.f_look_sumnews:
                         listview_state = "change_news";
                         Cursor cursor_look_news = db.query("news", null, null, null, null, null, null);

@@ -67,7 +67,7 @@
             android:layout_gravity="bottom|end"
             app:fabSize="normal"
             android:scaleType="center"
-            android:id="@+id/floatingbutton_scan_code"
+            android:id="@+id/floatingbutton_add_news"
             android:layout_height="wrap_content" />
     </android.support.design.widget.CoordinatorLayout>
     </RelativeLayout>

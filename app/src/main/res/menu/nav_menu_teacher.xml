@@ -8,12 +8,12 @@
             android:title="个人信息"
 
             />
-
         <item
-            android:id="@+id/nav_menu_lookliuyan"
-            android:icon="@drawable/message"
-            android:title="查看留言"
+            android:id="@+id/nav_menu_scan_code"
+            android:icon="@drawable/scancode"
+            android:title="扫码报到"
             />
+
         <item
             android:id="@+id/nav_menu_manage_message"
             android:icon="@drawable/news"
@@ -23,6 +23,11 @@
             android:id="@+id/nav_menu_assign_dormitory"
             android:icon="@drawable/sushe"
             android:title="宿舍分配"
+            />
+        <item
+            android:id="@+id/nav_menu_lookliuyan"
+            android:icon="@drawable/message"
+            android:title="查看留言"
             />
         <item
             android:id="@+id/nav_menu_change_teaaccount"
