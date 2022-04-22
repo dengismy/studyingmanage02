@@ -59,7 +59,9 @@
         <activity android:name=".teacher.tea_password_change" />
         <activity android:name=".administractor.change_news" />
         <activity android:name=".student.show_news_detail" />
-        <activity android:name=".student.search_news"></activity>
+        <activity android:name=".student.search_news" />
+        <activity android:name=".administractor.search_college" />
+        <activity android:name=".administractor.set_college"></activity>
     </application>
 
 </manifest>

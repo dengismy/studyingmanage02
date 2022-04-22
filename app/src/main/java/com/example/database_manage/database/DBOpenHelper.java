@@ -17,7 +17,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        //学生信息
+        /**学生信息表student**/
         String sql_student = "create table student(" +
                 "id int primary key not null ," +
                 "name varchar(20) not null," +
@@ -26,7 +26,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "banji varchar(20) ," +
                 "phone int ," +
                 "college varchar(20) default '无')" ;
-        //学生——登陆密码表
+
+        /**学生——登陆密码表load_account**/
         String sql_student_load = "create table load_account(account int primary Key not null ,password varchar(20))";
         //触发器
         String sql_ctrigger = "CREATE TRIGGER load_add AFTER INSERT ON student  " +
@@ -41,7 +42,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql_trigger2);
 
 
-        //老师个人信息表
+        /**工作人员个人信息表teacher**/
         String sql_teacher = "create table teacher(" +
                 "teacher_id int primary key not null," +
                 "name varchar(20)," +
@@ -50,7 +51,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "level varchar(20)," +
                 "phone int ," +
                 "college varchar(20))";
-        //老师登录信息表
+
+        /**老师登录信息表load_teacher**/
         String sql_teacher_load = "create table load_teacher(" +
                 "account int primary key not null ," +
                 "password varchar(20))";
@@ -106,7 +108,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql_course);
         db.execSQL(sql_student_course);
 
-        /**资讯**/
+        /**资讯news**/
         String sql_news = "create table news(" +
                 "news_id varchar(20) PRIMARY KEY," +
                 "title varchar(20) not null,"+
@@ -114,14 +116,24 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "new_date varcahr(20))";
         db.execSQL(sql_news);
 
-        //留言信息存储表
+        /**留言message**/
         String sql_liuyan = "create table message(" +
                 "student_id int primary key not null," +
                 "message text)";
         db.execSQL(sql_liuyan);
 
 
-        //管理员表
+        /**各学院招生信息表about_college**/
+        String sql_about_college = "create table about_college(" +
+                "tuition int ," +
+                "house int ," +
+                "commodities int ," +
+                "books int ," +
+                "people int, " +
+                "college_name varchar(20))";
+        db.execSQL(sql_about_college);
+
+        /**管理员表administractor**/
         String sql_admin = "create table administractor(" +
                 " account varchar(20)," +
                 " password varchar(20))";
@@ -148,8 +160,19 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(personal_resource_trigger);
         db.execSQL(personal_resource_trigger1);
 
+        //插入各学院招生信息
+        String a1 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'计算机学院')";
+        String a2 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'医学院')";
+        String a3 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'环境学院')";
+        String a4 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'土木水利学院')";
+        String a5 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'法学院')";
+        String a6= "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'美术学院')";
+        String a7 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'管理学院')";
+        String a8 = "insert into about_college(tuition,house,commodities,books,people,college_name) values(8000,1000,200,500,300,'药学院')";
+        db.execSQL(a1);db.execSQL(a2);db.execSQL(a3);db.execSQL(a4);db.execSQL(a5);db.execSQL(a6);
+        db.execSQL(a7);db.execSQL(a8);
 
-        //插入基本测试数据
+        //插入资讯基本测试数据
         String sql_insert1 = "insert into course(teacher_name,course_name,course_weight,course_time,course_period) values('陈老师','电子线路基础',2,'周一上午','1')";
         String sql_insert2 = "insert into course(teacher_name,course_name,course_weight,course_time,course_period) values('马老师','大学英语4',4,'周五上午','1')";
         String sql_insert4 = "insert into news(news_id,title,content,new_date) values('1','111','11111111','2022.2.2')";
@@ -160,7 +183,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(sql_insert3);
 
 
-        //插入基本测试数据
+        //插入学生基本测试数据
         String sql_p = "insert into student(id ,name ,sex,age ,banji , phone, college )" +
                 " values(3180608001,'顾廷烨','男',19,'计算机科学1802',111111,'计算机学院')";
 

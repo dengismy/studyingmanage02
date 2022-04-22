@@ -13,6 +13,11 @@
     app:showAsAction="never"
     />
     <item
+        android:id="@+id/set_college"
+        android:title="学院招新设置"
+        app:showAsAction="never"
+        />
+    <item
         android:id="@+id/twocode_refresh"
         android:title="更新二维码"
         app:showAsAction="never"

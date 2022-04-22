@@ -54,6 +54,10 @@ public class Common_Fragment extends Fragment {
             case R.id.course_add:
                 startActivity(new Intent(getActivity(),add_news.class));
                 break;
+            /**学院招新设置**/
+            case R.id.set_college:
+                startActivity(new Intent(getActivity(),search_college.class));
+                break;
             case R.id.twocode_refresh:
                //更新二维码
                 break;
