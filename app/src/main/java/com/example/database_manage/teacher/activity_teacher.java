@@ -306,7 +306,6 @@ public class activity_teacher extends AppCompatActivity {
     /**显示所有资讯**/
     public void look_news() {
 
-        //以老师姓名为根本去查询老师旗下的课程信息
         Cursor cursor = db.query("news", null, null, null, null, null, null);
         //对游标进行遍历
         if (cursor.getCount() == 0) {
@@ -331,7 +330,6 @@ public class activity_teacher extends AppCompatActivity {
                         }
                     })
                     .show();
-
             //设置适配器
             SimpleAdapter simpleAdapter = new SimpleAdapter(activity_teacher.this, arrayList_news, R.layout.list_item_allnews,
                     new String[]{"title", "date"}, new int[]{R.id.text_news_title, R.id.text_news_date});

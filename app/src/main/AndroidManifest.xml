@@ -57,7 +57,9 @@
         <activity android:name=".teacher.save_email" />
         <activity android:name=".student.stu_password_change" />
         <activity android:name=".teacher.tea_password_change" />
-        <activity android:name=".administractor.change_news"></activity>
+        <activity android:name=".administractor.change_news" />
+        <activity android:name=".student.show_news_detail" />
+        <activity android:name=".student.search_news"></activity>
     </application>
 
 </manifest>

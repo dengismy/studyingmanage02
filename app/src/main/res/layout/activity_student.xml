@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_student"
-        android:id="@+id/listview_mycourse"
+        android:id="@+id/listview_news"
         android:layout_above="@+id/student_coordlayout"
         android:layout_weight="10">
     </ListView>

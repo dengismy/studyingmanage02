@@ -17,11 +17,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.database_manage.administractor.change_news;
+import com.example.database_manage.teacher.activity_teacher;
 import com.example.database_manage.utils.Common_toolbarColor;
 import com.example.database_manage.R;
 import com.example.database_manage.database.CommonDatabase;
@@ -44,7 +47,7 @@ public class activity_student extends AppCompatActivity {
     private Toolbar toolbar;
 
     //用于显示学生选课信息的listview
-    private ListView listView_mycourse;
+    private ListView listView_news;
 
     //侧滑
     private DrawerLayout drawerLayout;
@@ -168,18 +171,34 @@ public class activity_student extends AppCompatActivity {
         });
 
 
-        //为listview设定监听器
+        //为view设定监听器
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.floatingbutton_mysearch:
+                        Intent intent_search_news = new Intent(activity_student.this, search_news.class);
+                        startActivity(intent_search_news);
                      Toast.makeText(activity_student.this,"搜索资讯",Toast.LENGTH_LONG).show();
                     default:
                         break;
                 }
             }
         };
+        //为listview设定监听器
+        listView_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /****点击资讯进行查看****/
+                HashMap<String,Object > map_item = (HashMap<String,Object >)listView_news.getItemAtPosition(position);
+                Intent intent_change_news = new Intent(activity_student.this, show_news_detail.class);
+                //获取map中的数据，并放入intent
+                intent_change_news.putExtra("title",map_item.get("title")+"");
+                intent_change_news.putExtra("id",map_item.get("id")+"");
+
+                startActivity(intent_change_news);
+            }
+        });
 
         floatingActionButton.setOnClickListener(listener);
         circleImageView.setOnClickListener(listener);
@@ -192,7 +211,7 @@ public class activity_student extends AppCompatActivity {
         //获取数据库对象
         db = new CommonDatabase().getSqliteObject(activity_student.this, "test_db");
 
-        listView_mycourse = findViewById(R.id.listview_mycourse);
+        listView_news = findViewById(R.id.listview_news);
 
         toolbar = findViewById(R.id.toolbar_student);
 
@@ -212,31 +231,24 @@ public class activity_student extends AppCompatActivity {
 
         imageStore = new image_store();
 
-        /**初始化主页面资讯显示两表连接查询**/
-        Cursor cursor = db.rawQuery(
-                "select * from student_course inner join course " +
-                        "on student_course.course_name =course.course_name " +
-                        "AND student_course.teacher_name = course.teacher_name  " +
-                        "where student_id = ?", new String[]{intent_1.getStringExtra("student_id")});
-        ArrayList<Map<String, String>> arrayList_1 = new ArrayList<Map<String, String>>();
+        /**初始化主页面资讯显示所有资讯**/
+        Cursor cursor = db.query("news", null, null, null, null, null, null);
+        //对游标进行遍历
         if (cursor.getCount() == 0) {
-            Toast.makeText(activity_student.this, "您还没有选择任何课！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity_student.this, "暂时无资讯", Toast.LENGTH_SHORT).show();
         } else {
+            ArrayList<Map<String, String>> arrayList_news = new ArrayList<Map<String, String>>();
             while (cursor.moveToNext()) {
                 Map<String, String> map = new HashMap<String, String>();
-
-                map.put("course_time", cursor.getString(cursor.getColumnIndex("course_time")));
-                map.put("course_name", cursor.getString(cursor.getColumnIndex("course_name")));
-                map.put("teacher_name", cursor.getString(cursor.getColumnIndex("teacher_name")));
-                map.put("course_period", cursor.getString(cursor.getColumnIndex("course_period")));
-                map.put("course_weight", cursor.getString(cursor.getColumnIndex("course_weight")));
-                arrayList_1.add(map);
-
+                map.put("title", cursor.getString(cursor.getColumnIndex("title")));
+                map.put("date", cursor.getString(cursor.getColumnIndex("new_date")));
+                map.put("id", cursor.getString(cursor.getColumnIndex("news_id")));
+                arrayList_news.add(map);
             }
             //设置适配器，并绑定布局文件
-            SimpleAdapter simpleAdapter = new SimpleAdapter(activity_student.this, arrayList_1, R.layout.choose_result,
-                    new String[]{"course_name", "teacher_name", "course_time", "course_weight", "course_period"}, new int[]{R.id.result_course_name, R.id.result_teacher_name, R.id.result_time, R.id.result_weight, R.id.result_period});
-            listView_mycourse.setAdapter(simpleAdapter);
+            SimpleAdapter simpleAdapter = new SimpleAdapter(activity_student.this, arrayList_news, R.layout.list_item_allnews,
+                    new String[]{"title", "date"}, new int[]{R.id.text_news_title, R.id.text_news_date});
+            listView_news.setAdapter(simpleAdapter);
         }
 
     }
