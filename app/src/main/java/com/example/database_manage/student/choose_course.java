@@ -89,7 +89,6 @@ public class choose_course extends AppCompatActivity {
                                             } else {
                                                 string_chongtu += p_name;
                                                 string_chongtu += "/";
-                                                Toast.makeText(choose_course.this, string_chongtu, Toast.LENGTH_SHORT).show();
                                             }
                                             break;
                                         case ("住宿费"):
@@ -100,7 +99,6 @@ public class choose_course extends AppCompatActivity {
                                             } else {
                                                 string_chongtu += p_name;
                                                 string_chongtu += "/";
-                                                Toast.makeText(choose_course.this, string_chongtu, Toast.LENGTH_SHORT).show();
                                             }
                                             break;
                                         case ("日用品套餐费"):
