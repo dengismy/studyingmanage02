@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class courseAdapter extends BaseAdapter {
     Context mContext;
-    List<item> mList;
+    List<pay_item> mList;
     ViewHolder mViewHolder;
 
-    public courseAdapter(Context mContext, List<item> mList) {
+    public courseAdapter(Context mContext, List<pay_item> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -44,7 +44,7 @@ public class courseAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        final item it = mList.get(i);
+        final pay_item it = mList.get(i);
         if (view == null) {
             //用LayouInflater加载布局，传给布局对象view
             // 用view找到三个控件，存放在viewHolder中，再把viewHolder储存到View中
@@ -53,11 +53,8 @@ public class courseAdapter extends BaseAdapter {
 
             mViewHolder = new ViewHolder();
             mViewHolder.checkBox = (CheckBox) view.findViewById(R.id.checkbox_1);
-            mViewHolder.course_name = (TextView) view.findViewById(R.id.t_course_name);
-            mViewHolder.course_time = (TextView) view.findViewById(R.id.t_course_time);
-            mViewHolder.course_period = (TextView) view.findViewById(R.id.t_course_period);
-            mViewHolder.teacher_name = view.findViewById(R.id.t_teacher_name);
-            mViewHolder.course_weight = view.findViewById(R.id.t_course_weight);
+            mViewHolder.pay_name = (TextView) view.findViewById(R.id.t_pay_name);
+            mViewHolder.pay_number = (TextView) view.findViewById(R.id.t_pay_number);
             view.setTag(mViewHolder);
         } else {
 
@@ -71,22 +68,16 @@ public class courseAdapter extends BaseAdapter {
                     }
 
                 });
-        mViewHolder.course_name.setText(it.getCourse_name());
-        mViewHolder.course_time.setText(it.getCourse_time());
-        mViewHolder.course_period.setText(it.getCourse_period());
-        mViewHolder.teacher_name.setText(it.getTeacher_name());
+        mViewHolder.pay_name.setText(it.getPay_name());
+        mViewHolder.pay_number.setText(it.getPay_number()+"");
         mViewHolder.checkBox.setChecked(it.getIscheck());
-        mViewHolder.course_weight.setText(it.getCourse_weight());
         return view;
     }
 
     class ViewHolder {
-        TextView course_name;
-        TextView course_time;
+        TextView pay_name;
+        TextView pay_number;
         CheckBox checkBox;
-        TextView course_period;
-        TextView teacher_name;
-        TextView course_weight;
     }
 }
 

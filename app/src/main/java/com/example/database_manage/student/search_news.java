@@ -25,6 +25,7 @@ public class search_news extends AppCompatActivity {
     private SearchView mSearchView;
     private ListView lListView;
     SQLiteDatabase db;
+    SimpleAdapter simpleAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +33,26 @@ public class search_news extends AppCompatActivity {
         mSearchView = findViewById(R.id.searchView);
         lListView = findViewById(R.id.listView);
         lListView.setTextFilterEnabled(false);
+        CommonDatabase commonDatabase = new CommonDatabase();
+        db = commonDatabase.getSqliteObject(search_news.this, "test_db");
+        //得到cursor
+        Cursor cursor = db.rawQuery("select * from news", null);
+        ArrayList<Map<String, String>> arrayList_news = new ArrayList<Map<String, String>>();
+        while (cursor.moveToNext()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("title", cursor.getString(cursor.getColumnIndex("title")));
+            map.put("date", cursor.getString(cursor.getColumnIndex("new_date")));
+            map.put("id", cursor.getString(cursor.getColumnIndex("news_id")));
+            arrayList_news.add(map);
+        }
+        //设置适配器，并绑定布局文件
+        simpleAdapter = new SimpleAdapter(search_news.this, arrayList_news, R.layout.list_item_allnews,
+                new String[]{"title", "date"}, new int[]{R.id.text_news_title, R.id.text_news_date});
+        lListView.setAdapter(simpleAdapter);
 
         // 设置搜索文本监听
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            SimpleAdapter simpleAdapter;
+
             // 当点击搜索按钮时触发该方法
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -67,23 +84,6 @@ public class search_news extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (!TextUtils.isEmpty(newText)){
                     lListView.setFilterText(newText);
-                    CommonDatabase commonDatabase = new CommonDatabase();
-                    db = commonDatabase.getSqliteObject(search_news.this, "test_db");
-                    //得到cursor
-                    Cursor cursor = db.rawQuery("select * from news where title like '%" + newText + "%'", null);
-                        ArrayList<Map<String, String>> arrayList_news = new ArrayList<Map<String, String>>();
-                        while (cursor.moveToNext()) {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("title", cursor.getString(cursor.getColumnIndex("title")));
-                            map.put("date", cursor.getString(cursor.getColumnIndex("new_date")));
-                            map.put("id", cursor.getString(cursor.getColumnIndex("news_id")));
-                            arrayList_news.add(map);
-                        }
-                        //设置适配器，并绑定布局文件
-                        simpleAdapter = new SimpleAdapter(search_news.this, arrayList_news, R.layout.list_item_allnews,
-                                new String[]{"title", "date"}, new int[]{R.id.text_news_title, R.id.text_news_date});
-                        lListView.setAdapter(simpleAdapter);
-
                   }else{
                     lListView.clearTextFilter();
                 }

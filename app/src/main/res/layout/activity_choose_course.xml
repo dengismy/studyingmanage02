@@ -11,25 +11,27 @@
         android:layout_height="650dp"
         android:layout_weight="9"
         android:id="@+id/listview_course">
-
     </ListView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择"
             android:id="@+id/choose"
-            android:layout_marginLeft="120dp"
-            />
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:text="缴费" />
+
+        <Button
             android:id="@+id/back"
-            android:text="返回"/>
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回" />
     </LinearLayout>
 
 

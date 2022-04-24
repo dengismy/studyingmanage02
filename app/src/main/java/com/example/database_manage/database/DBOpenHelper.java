@@ -141,6 +141,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
         db.execSQL(sql_admin);
         db.execSQL(sql_insert_admin);
+        /**学生缴费表表student_pay**/
+        String sql_student_pay = "create table student_pay(" +
+                "student_id int primary key not null,"+
+                "tuition int ," +
+                "house int ," +
+                "commodities int ," +
+                "books int )";
+        db.execSQL(sql_student_pay);
+
 
 
         //个人资源配置表，比如更改图片之类的啦
