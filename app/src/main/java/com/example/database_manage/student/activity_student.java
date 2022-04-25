@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.database_manage.administractor.change_news;
+import com.example.database_manage.school_map.map_Activity;
 import com.example.database_manage.teacher.activity_teacher;
 import com.example.database_manage.utils.Common_toolbarColor;
 import com.example.database_manage.R;
@@ -161,7 +162,8 @@ public class activity_student extends AppCompatActivity {
                         break;
                     /**查看校园地图**/
                     case R.id.nav_menu_school_map:
-                        Toast.makeText(activity_student.this,"查看地图",Toast.LENGTH_LONG).show();
+                        Intent intent_map = new Intent(activity_student.this,map_Activity.class);
+                        startActivity(intent_map);
                         break;
                     default:
                         break;

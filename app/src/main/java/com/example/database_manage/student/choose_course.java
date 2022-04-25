@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.database_manage.R;
@@ -30,6 +31,7 @@ public class choose_course extends AppCompatActivity {
     private ListView listView_course;
     private Button button_back;
     private Button button_choose;
+    private TextView pay_sum;
     private CommonDatabase commonDatabase;
     private Intent intent_3;
     String student_college;
@@ -45,6 +47,7 @@ public class choose_course extends AppCompatActivity {
         listView_course = findViewById(R.id.listview_course);
         button_back = findViewById(R.id.back);
         button_choose = findViewById(R.id.choose);
+        pay_sum=findViewById(R.id.pay_sum);
         intent_3 = getIntent();
         //获取学生所属学院
         Cursor cursor_about = db.query("student", null, "id = ?", new String[]{intent_3.getStringExtra("student_id")}, null, null, null);
@@ -60,6 +63,7 @@ public class choose_course extends AppCompatActivity {
                     /**缴费**/
                     case R.id.choose:
                         String string_chongtu ="";
+                        int sum=0;
                         for (int i = 0; i < c.getCount(); i++) {
                             //获取子项的对象
                             pay_item it = (pay_item) c.getItem(i);
@@ -67,6 +71,7 @@ public class choose_course extends AppCompatActivity {
                             if (it.ischeck == true) {
                                 //去表中查一下是否已经缴费
                                 String p_name = it.pay_name;
+                                int p_number=it.pay_number;
                                 Cursor cursor01 = db.query("student_pay", null, "student_id=?",
                                         new String[]{intent_3.getStringExtra("student_id")}, null, null, null);
                                 if (cursor01.getCount() == 0) {
@@ -84,8 +89,9 @@ public class choose_course extends AppCompatActivity {
                                         case ("学费"):
                                             if (cursor01.getInt(cursor01.getColumnIndex("tuition")) == 0) {
                                                 ContentValues values = new ContentValues();
-                                                values.put("tuition", 111);
+                                                values.put("tuition", p_number);
                                                 db.update("student_pay", values, "student_id=?", new String[]{intent_3.getStringExtra("student_id")});
+                                                sum+=p_number;
                                             } else {
                                                 string_chongtu += p_name;
                                                 string_chongtu += "/";
@@ -94,8 +100,9 @@ public class choose_course extends AppCompatActivity {
                                         case ("住宿费"):
                                             if (cursor01.getInt(cursor01.getColumnIndex("house")) == 0) {
                                                 ContentValues values = new ContentValues();
-                                                values.put("house", 111);
+                                                values.put("house", p_number);
                                                 db.update("student_pay", values, "student_id = ?", new String[]{intent_3.getStringExtra("student_id")});
+                                                sum+=p_number;
                                             } else {
                                                 string_chongtu += p_name;
                                                 string_chongtu += "/";
@@ -104,8 +111,9 @@ public class choose_course extends AppCompatActivity {
                                         case ("日用品套餐费"):
                                             if (cursor01.getInt(cursor01.getColumnIndex("commodities")) == 0) {
                                                 ContentValues values = new ContentValues();
-                                                values.put("commodities", 111);
+                                                values.put("commodities", p_number);
                                                 db.update("student_pay", values, "student_id = ?", new String[]{intent_3.getStringExtra("student_id")});
+                                                sum+=p_number;
                                             } else {
                                                 string_chongtu += p_name;
                                                 string_chongtu += "/";
@@ -114,8 +122,9 @@ public class choose_course extends AppCompatActivity {
                                         case ("书本费"):
                                             if (cursor01.getInt(cursor01.getColumnIndex("books")) == 0) {
                                                 ContentValues values = new ContentValues();
-                                                values.put("books", 111);
+                                                values.put("books", p_number);
                                                 db.update("student_pay", values, "student_id = ?", new String[]{intent_3.getStringExtra("student_id")});
+                                                sum+=p_number;
                                             } else {
                                                 string_chongtu += p_name;
                                                 string_chongtu += "/";
@@ -127,6 +136,9 @@ public class choose_course extends AppCompatActivity {
                                 }
                             }
                             }
+                            //刷新总金额
+
+                        pay_sum.setText(sum+"元");
                             //如果没有冲突的
                             if (string_chongtu.equals("")) {
                                 Toast.makeText(choose_course.this, "缴费成功！", Toast.LENGTH_SHORT).show();

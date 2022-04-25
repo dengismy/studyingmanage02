@@ -13,5 +13,16 @@
         <!--<item name="android:windowFullscreen">true</item>-->
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    <!-- 客户端标题的字体 -->
+    <style name="customer">
+        <item name="android:textColor">#808080</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bottom_text_select</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:drawablePadding">2dp</item>
+    </style>
 
 </resources>
